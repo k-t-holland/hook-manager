@@ -1,8 +1,10 @@
 # hook-manager
 Simple class to help manage hooks when writing WordPress plugins
 
-```php
+## Usage Example
 
+AdminHooks.php
+```php
 <?php
 
 use KTHolland\HookManager;
@@ -27,7 +29,7 @@ class AdminHooks {
             ->addHook(new ActionHook('wp_insert_post', $this, 'appendUserSignatureToNewPosts', 10, 3))
             
             // This hook is being marked as removable
-            ->addHook(new ActionHook('wp_update_post', $this, 'updateRevisionCount', 10, 2), true);
+            ->addHook(new ActionHook('wp_update_post', $this, 'updatePostRevisionCount', 10, 2), true);
     }
     
     public function enqueueScripts(){
@@ -53,7 +55,7 @@ class AdminHooks {
         
     }
     
-    public function updateRevisionCount($post, $wp_error){
+    public function updatePostRevisionCount($post, $wp_error){
     
         $meta_key = 'revision_count';
         
@@ -66,6 +68,16 @@ class AdminHooks {
     }
     
 }
+```
+
+PublicHooks.php
+```php
+<?php
+
+use KTHolland\HookManager;
+use KTHolland\HookManager\ActionHook;
+use KTHolland\HookManager\FilterHook;
+
 
 class PublicHooks {
 
@@ -98,14 +110,21 @@ class PublicHooks {
         
     }
 }
+```
 
-$hookManager = new HookManager();
+Within your my-plugin.php file
+```php
+<?php
+
+use MyPluginNamespace\AdminHooks;
+use MyPluginNamespace\PublicHooks;
+use KTHolland\HookManager;
 
 if(is_admin()){
 
-    (new AdminHooks($hookManager))->load();
+    (new AdminHooks( new HookManager() ))->load();
     
 }
 
-(new PublicHooks($hookManager))->load();
+(new PublicHooks( new HookManager() ))->load();
 ```
