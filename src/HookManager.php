@@ -6,7 +6,6 @@ use KTHolland\HookManager\Contracts\Hook;
 
 class HookManager
 {
-    use NormalizeVariableLengthArgumentList;
 
     /**
      * WordPress hooks
