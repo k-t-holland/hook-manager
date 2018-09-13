@@ -1,0 +1,20 @@
+{
+    "name" : "k-t-holland/hook-manager",
+    "description" : "Creates a class based WordPress hook management system.",
+    "type" : "library",
+    "license" : "MIT",
+    "authors" : [
+        {
+            "name" : "Kyle Holland",
+            "email" : "kyle.t.holland@gmail.com"
+        }
+    ],
+    "autoload" : {
+        "psr-4" : {
+            "KTHolland\\HookManager\\" : "src/"
+        }
+    },
+    "require" : {
+        "php" : ">=5.6.0"
+    }
+}
