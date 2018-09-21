@@ -23,7 +23,7 @@ class HookManager
      * Return $this->hooks array
      * @return array
      */
-    public function hooks()
+    public function getHooks()
     {
 
         return $this->hooks;
@@ -37,7 +37,7 @@ class HookManager
     public function getHook($callback)
     {
 
-        if($this->callbackIsNotDefined($callback)){
+        if($this->isHookCallbackNotDefined($callback)){
             return false;
         }
 
@@ -54,7 +54,6 @@ class HookManager
     {
 
         $hook->add();
-
         $this->hooks[$hook->callback] = $hook;
 
         if($removable){
@@ -69,10 +68,10 @@ class HookManager
      * @param $callback
      * @return bool
      */
-    public function delete($callback)
+    public function deleteHook($callback)
     {
 
-        if($this->callbackIsNotDefined($callback)){
+        if($this->isHookCallbackNotDefined($callback)){
             return false;
         }
 
@@ -81,14 +80,13 @@ class HookManager
         }
 
         $this->hooks[$callback]->remove();
-
         unset($this->hooks[$callback]);
 
         return true;
 
     }
 
-    public function loadAll()
+    public function loadAllHooks()
     {
 
         foreach($this->hooks as $callback => $hook){
@@ -97,7 +95,7 @@ class HookManager
 
     }
 
-    public function unloadAll()
+    public function unloadAllHooks()
     {
 
         foreach($this->hooks as $callback => $hook){
@@ -111,7 +109,7 @@ class HookManager
 
         foreach($this->removable as $callback){
 
-            if($this->callbackIsDefined($callback)){
+            if($this->isHookCallbackDefined($callback)){
                 $this->hooks[$callback]->remove();
             }
 
@@ -124,7 +122,7 @@ class HookManager
 
         foreach($this->removable as $callback){
 
-            if($this->callbackIsDefined($callback)){
+            if($this->isHookCallbackDefined($callback)){
                 $this->hooks[$callback]->add();
             }
 
@@ -132,17 +130,17 @@ class HookManager
 
     }
 
-    private function callbackIsDefined($callback)
+    private function isHookCallbackDefined($callback)
     {
 
         return isset($this->hooks[$callback]);
 
     }
 
-    private function callbackIsNotDefined($callback)
+    private function isHookCallbackNotDefined($callback)
     {
 
-        return ! $this->callbackIsDefined($callback);
+        return ! $this->isHookCallbackDefined($callback);
 
     }
 }
